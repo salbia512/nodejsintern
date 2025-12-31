@@ -1,26 +1,29 @@
 const express = require("express");
+const cors = require("cors");
 const connectDB = require("./config/db");
-require("dotenv").config();
-
-
-const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
-// Connect Database
+// CONNECT DB
 connectDB();
 
-// Middleware
+// 🔥 FIXED CORS CONFIG
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+// 🔥 IMPORTANT: handle preflight
+app.options("*", cors());
+
 app.use(express.json());
 
-// Routes
-app.use("/api/auth", authRoutes);
-const authMiddleware = require("./middleware/authMiddleware");
-
+// ROUTES
+app.use("/api/auth", require("./routes/authRoutes"));
 
 app.get("/", (req, res) => {
-  res.send("API is running successfully 🚀");
+  res.send("API running");
 });
-
 
 module.exports = app;
