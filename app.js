@@ -17,11 +17,10 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 const authMiddleware = require("./middleware/authMiddleware");
 
-app.get("/api/profile", authMiddleware, (req, res) => {
-  res.json({
-    message: "Welcome to profile",
-    userId: req.userId
-  });
+
+app.get("/", (req, res) => {
+  res.send("API is running successfully 🚀");
 });
+
 
 module.exports = app;
